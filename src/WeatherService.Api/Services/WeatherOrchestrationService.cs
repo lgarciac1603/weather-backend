@@ -4,6 +4,11 @@ using WeatherService.Api.Repositories;
 
 namespace WeatherService.Api.Services;
 
+/// <summary>
+/// Orchestrates the cache-first weather lookup: MongoDB is checked before falling back
+/// to Open-Meteo, and any new result is persisted so the next call with the same
+/// coordinates never hits the external API again.
+/// </summary>
 public class WeatherOrchestrationService : IWeatherService
 {
     private readonly IWeatherRepository _repository;

@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución",
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{2AD867E7-82FF-41D2-AE8C-242F111DFE63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherService.Api.Tests", "tests\WeatherService.Api.Tests\WeatherService.Api.Tests.csproj", "{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,12 +28,17 @@ Global
 		{96CE36F6-3E81-4B99-BFA5-3BF2EECC17BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96CE36F6-3E81-4B99-BFA5-3BF2EECC17BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96CE36F6-3E81-4B99-BFA5-3BF2EECC17BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{96CE36F6-3E81-4B99-BFA5-3BF2EECC17BE} = {249623B3-CB11-44ED-921F-37B9CBC0FCD8}
+		{0E6E91A8-1CA9-4BB5-8A6F-A0B88F29FB43} = {2AD867E7-82FF-41D2-AE8C-242F111DFE63}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0148C73-B7B1-4370-B5FF-567EA316E5EE}
