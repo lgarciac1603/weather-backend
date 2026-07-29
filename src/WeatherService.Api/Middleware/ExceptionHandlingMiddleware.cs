@@ -3,6 +3,10 @@ using System.Text.Json;
 
 namespace WeatherService.Api.Middleware;
 
+/// <summary>
+/// Catches unhandled exceptions from the request pipeline, logs the full error, and returns
+/// a generic JSON error response so callers never see a raw stack trace.
+/// </summary>
 public class ExceptionHandlingMiddleware
 {
     private readonly RequestDelegate _next;

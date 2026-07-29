@@ -8,14 +8,20 @@ using WeatherService.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient<IOpenMeteoClient, OpenMeteoClient>(client =>
+builder.Services.Configure<OpenMeteoSettings>(builder.Configuration.GetSection("OpenMeteoSettings"));
+
+builder.Services.AddHttpClient<IOpenMeteoClient, OpenMeteoClient>((sp, client) =>
 {
-    client.BaseAddress = new Uri("https://api.open-meteo.com/");
+    var settings = sp.GetRequiredService<IOptions<OpenMeteoSettings>>().Value;
+    client.BaseAddress = new Uri(settings.ForecastBaseUrl);
+    client.Timeout = TimeSpan.FromSeconds(10);
 });
 
-builder.Services.AddHttpClient<IGeocodingClient, GeocodingClient>(client =>
+builder.Services.AddHttpClient<IGeocodingClient, GeocodingClient>((sp, client) =>
 {
-    client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/");
+    var settings = sp.GetRequiredService<IOptions<OpenMeteoSettings>>().Value;
+    client.BaseAddress = new Uri(settings.GeocodingBaseUrl);
+    client.Timeout = TimeSpan.FromSeconds(10);
 });
 
 builder.Services.AddControllers();
@@ -32,7 +38,9 @@ builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("Mong
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
 {
     var settings = sp.GetRequiredService<IOptions<MongoSettings>>().Value;
-    var client = new MongoClient(settings.ConnectionString);
+    var mongoClientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+    mongoClientSettings.ServerSelectionTimeout = TimeSpan.FromSeconds(5);
+    var client = new MongoClient(mongoClientSettings);
     return client.GetDatabase(settings.DatabaseName);
 });
 
