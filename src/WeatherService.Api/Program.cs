@@ -28,6 +28,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 });
 
 builder.Services.AddSingleton<IWeatherRepository, MongoWeatherRepository>();
+builder.Services.AddScoped<IWeatherService, WeatherOrchestrationService>();
 
 var app = builder.Build();
 
