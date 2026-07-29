@@ -80,6 +80,22 @@ Response shape is the same as the coordinates endpoint.
 
 Unhandled exceptions are caught by a global middleware and returned as a consistent JSON body (`statusCode`, `message`), never as a raw stack trace. Invalid input (out-of-range coordinates, missing city) returns `400` with validation details.
 
+## Inspecting the cache in MongoDB
+
+To check the cached weather records directly inside the dockerized MongoDB (e.g. to verify the cache-first behavior isn't inserting duplicates):
+
+```powershell
+docker exec -it weather-service-mongo mongosh WeatherServiceDb --eval "db.WeatherRecords.find().pretty()"
+```
+
+## Running tests
+
+Unit tests cover the cache-first orchestration logic, controller validation/routing, and the global exception middleware (common cases, edge cases, and error handling).
+
+```powershell
+dotnet test
+```
+
 ## Project status
 
-Core functionality complete: MongoDB cache-first lookup, coordinates endpoint, bonus city endpoint, global exception handling, and documented Swagger UI. Optional/pending: automated tests.
+Core functionality complete: MongoDB cache-first lookup, coordinates endpoint, bonus city endpoint, global exception handling, documented Swagger UI, and unit tests.
