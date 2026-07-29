@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Reflection;
+using WeatherService.Api.Middleware;
 using WeatherService.Api.Options;
 using WeatherService.Api.Repositories;
 using WeatherService.Api.Services;
@@ -15,7 +17,12 @@ builder.Services.AddHttpClient<IOpenMeteoClient, OpenMeteoClient>(client =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 // register mongo config
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoSettings"));
@@ -31,6 +38,7 @@ builder.Services.AddSingleton<IWeatherRepository, MongoWeatherRepository>();
 builder.Services.AddScoped<IWeatherService, WeatherOrchestrationService>();
 
 var app = builder.Build();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
