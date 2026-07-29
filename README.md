@@ -1,5 +1,7 @@
 # weather-backend
 
+Repo: [github.com/lgarciac1603/weather-backend](https://github.com/lgarciac1603/weather-backend)
+
 REST API backend for querying weather data (temperature, wind direction, wind speed, and sunrise time) given latitude/longitude, using [Open-Meteo](https://open-meteo.com/en/docs) as the data source and MongoDB as a cache.
 
 ## Stack
@@ -7,6 +9,20 @@ REST API backend for querying weather data (temperature, wind direction, wind sp
 - .NET 6 (ASP.NET Core Web API, Controllers)
 - MongoDB (via `MongoDB.Driver`)
 - Docker Compose to run MongoDB locally
+
+## Project structure
+
+```
+src/WeatherService.Api/
+  Controllers/   HTTP endpoints
+  Services/      Business logic and external API clients (Open-Meteo forecast + geocoding)
+  Repositories/  MongoDB cache access
+  Models/        Persisted entities
+  DTOs/          Request/response contracts
+  Options/       Strongly-typed configuration
+  Middleware/    Global exception handling
+tests/WeatherService.Api.Tests/  Unit tests, mirroring the structure above
+```
 
 ## Prerequisites
 
@@ -95,7 +111,3 @@ Unit tests cover the cache-first orchestration logic, controller validation/rout
 ```powershell
 dotnet test
 ```
-
-## Project status
-
-Core functionality complete: MongoDB cache-first lookup, coordinates endpoint, bonus city endpoint, global exception handling, documented Swagger UI, and unit tests.

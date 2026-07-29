@@ -18,9 +18,7 @@ builder.Services.AddHttpClient<IGeocodingClient, GeocodingClient>(client =>
     client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/");
 });
 
-// Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -29,7 +27,6 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(xmlPath);
 });
 
-// register mongo config
 builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoSettings"));
 
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
@@ -45,7 +42,6 @@ builder.Services.AddScoped<IWeatherService, WeatherOrchestrationService>();
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

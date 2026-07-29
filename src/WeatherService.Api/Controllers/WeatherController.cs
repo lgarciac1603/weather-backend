@@ -32,11 +32,6 @@ public class WeatherController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<WeatherResponseDto>> GetByCoordinates([FromQuery] WeatherQueryDto query)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         var result = await _weatherService.GetWeatherAsync(query.Latitude, query.Longitude);
         return Ok(result);
     }
@@ -54,11 +49,6 @@ public class WeatherController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<WeatherResponseDto>> GetByCity([FromQuery] CityQueryDto query)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
         var coordinates = await _geocodingClient.GetCoordinatesAsync(query.City);
         if (coordinates is null)
         {

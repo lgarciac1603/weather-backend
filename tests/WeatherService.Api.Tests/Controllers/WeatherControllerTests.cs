@@ -19,17 +19,6 @@ public class WeatherControllerTests
     }
 
     [Fact]
-    public async Task GetByCoordinates_InvalidModelState_ReturnsBadRequest()
-    {
-        _sut.ModelState.AddModelError("Latitude", "Latitude must be between -90 and 90.");
-
-        var result = await _sut.GetByCoordinates(new WeatherQueryDto { Latitude = 200, Longitude = 0 });
-
-        Assert.IsType<BadRequestObjectResult>(result.Result);
-        _weatherServiceMock.Verify(s => s.GetWeatherAsync(It.IsAny<double>(), It.IsAny<double>()), Times.Never);
-    }
-
-    [Fact]
     public async Task GetByCoordinates_ValidQuery_ReturnsOkWithWeatherData()
     {
         var expected = new WeatherResponseDto { Temperature = 20, WindDirection = 90, WindSpeed = 4, Sunrise = DateTime.UtcNow };
