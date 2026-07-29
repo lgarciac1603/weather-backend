@@ -3,6 +3,9 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace WeatherService.Api.Models;
 
+/// <summary>
+/// A cached weather lookup, keyed by coordinates, as persisted in MongoDB.
+/// </summary>
 public class WeatherRecord
 {
     [BsonId]

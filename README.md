@@ -45,6 +45,41 @@ dotnet run
 
 The API is available with a self-documented Swagger UI at `/swagger`.
 
+## Endpoints
+
+Both endpoints are cache-first: the first request for a given location calls Open-Meteo and stores the result in MongoDB; any later request for the same location is served from MongoDB without calling the external API again.
+
+### `GET /api/weather/coordinates`
+
+Query parameters: `Latitude` (-90 to 90), `Longitude` (-180 to 180).
+
+```
+GET /api/weather/coordinates?Latitude=4.6&Longitude=-74.1
+```
+
+```json
+{
+  "temperature": 13.2,
+  "windDirection": 115,
+  "windSpeed": 6.4,
+  "sunrise": "2026-07-28T05:53:00"
+}
+```
+
+### `GET /api/weather/city` (bonus)
+
+Query parameter: `City` (name to resolve via geocoding). Returns `404` if the city can't be found.
+
+```
+GET /api/weather/city?City=Bogota
+```
+
+Response shape is the same as the coordinates endpoint.
+
+## Error handling
+
+Unhandled exceptions are caught by a global middleware and returned as a consistent JSON body (`statusCode`, `message`), never as a raw stack trace. Invalid input (out-of-range coordinates, missing city) returns `400` with validation details.
+
 ## Project status
 
-Actively in development. So far: MongoDB connection via DI, domain model (`WeatherRecord`) and DTOs, typed HTTP client for Open-Meteo (`IOpenMeteoClient`), cache-first repository (`IWeatherRepository`). Pending: main endpoint, error handling, and the bonus city-based endpoint.
+Core functionality complete: MongoDB cache-first lookup, coordinates endpoint, bonus city endpoint, global exception handling, and documented Swagger UI. Optional/pending: automated tests.

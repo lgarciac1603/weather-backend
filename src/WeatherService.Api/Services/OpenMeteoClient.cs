@@ -3,6 +3,9 @@ using WeatherService.Api.DTOs;
 
 namespace WeatherService.Api.Services;
 
+/// <summary>
+/// <see cref="IOpenMeteoClient"/> implementation backed by the public Open-Meteo forecast API.
+/// </summary>
 public class OpenMeteoClient : IOpenMeteoClient
 {
     private readonly HttpClient _httpClient;

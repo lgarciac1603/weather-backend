@@ -3,6 +3,9 @@ using WeatherService.Api.Models;
 
 namespace WeatherService.Api.Repositories;
 
+/// <summary>
+/// MongoDB-backed implementation of <see cref="IWeatherRepository"/>.
+/// </summary>
 public class MongoWeatherRepository : IWeatherRepository
 {
     private readonly IMongoCollection<WeatherRecord> _collection;
@@ -19,6 +22,9 @@ public class MongoWeatherRepository : IWeatherRepository
 
     public async Task<WeatherRecord?> GetByCoordinatesAsync(double latitude, double longitude)
     {
+        // Exact double equality is safe here: latitude/longitude flow straight from the
+        // query string into this comparison with no intermediate arithmetic, so the same
+        // input always produces the same bit pattern.
         return await _collection
             .Find(r => r.Latitude == latitude && r.Longitude == longitude)
             .FirstOrDefaultAsync();
