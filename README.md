@@ -41,16 +41,20 @@ This starts a `mongo:6.0` container exposed on `localhost:27017`, with a named v
 
 **2. Configuration**
 
-The MongoDB connection is configured in `src/WeatherService.Api/appsettings.json`, under the `MongoSettings` section:
+The MongoDB connection and the Open-Meteo API base URLs are configured in `src/WeatherService.Api/appsettings.json`:
 
 ```json
 "MongoSettings": {
   "ConnectionString": "mongodb://localhost:27017",
   "DatabaseName": "WeatherServiceDb"
+},
+"OpenMeteoSettings": {
+  "ForecastBaseUrl": "https://api.open-meteo.com/",
+  "GeocodingBaseUrl": "https://geocoding-api.open-meteo.com/"
 }
 ```
 
-No credentials or sensitive values are hardcoded in the code — everything comes from configuration.
+No credentials, connection strings, or URLs are hardcoded in the code — everything comes from configuration.
 
 **3. Run the API**
 

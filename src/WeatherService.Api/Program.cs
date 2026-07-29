@@ -8,14 +8,18 @@ using WeatherService.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddHttpClient<IOpenMeteoClient, OpenMeteoClient>(client =>
+builder.Services.Configure<OpenMeteoSettings>(builder.Configuration.GetSection("OpenMeteoSettings"));
+
+builder.Services.AddHttpClient<IOpenMeteoClient, OpenMeteoClient>((sp, client) =>
 {
-    client.BaseAddress = new Uri("https://api.open-meteo.com/");
+    var settings = sp.GetRequiredService<IOptions<OpenMeteoSettings>>().Value;
+    client.BaseAddress = new Uri(settings.ForecastBaseUrl);
 });
 
-builder.Services.AddHttpClient<IGeocodingClient, GeocodingClient>(client =>
+builder.Services.AddHttpClient<IGeocodingClient, GeocodingClient>((sp, client) =>
 {
-    client.BaseAddress = new Uri("https://geocoding-api.open-meteo.com/");
+    var settings = sp.GetRequiredService<IOptions<OpenMeteoSettings>>().Value;
+    client.BaseAddress = new Uri(settings.GeocodingBaseUrl);
 });
 
 builder.Services.AddControllers();
