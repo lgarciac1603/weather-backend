@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using WeatherService.Api.Options;
+using WeatherService.Api.Repositories;
 using WeatherService.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,8 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
     var client = new MongoClient(settings.ConnectionString);
     return client.GetDatabase(settings.DatabaseName);
 });
+
+builder.Services.AddSingleton<IWeatherRepository, MongoWeatherRepository>();
 
 var app = builder.Build();
 
